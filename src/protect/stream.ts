@@ -1,11 +1,11 @@
-import { Observable, from } from 'rxjs'
-import { map, switchMap, scan, filter } from 'rxjs/operators'
+import { Observable } from 'rxjs'
+import { map, scan, filter } from 'rxjs/operators'
 
 import { Logging } from 'homebridge'
 import { UnifiPlatformConfig } from '../config'
 import WebSocket from 'ws'
-import fetchit from 'fetchit'
-import login from './login'
+import { LoginHeaders } from './login'
+import { BootstrapResponse } from './bootstrap'
 import { webSocket } from 'rxjs/webSocket'
 import { HEADER_SIZE, HeaderBytes, parseMessageSection, Message } from './message'
 
@@ -17,43 +17,28 @@ interface BufferAcc {
 	}
 }
 
-export default function connect(log: Logging, config: UnifiPlatformConfig): Observable<Message> {
-	log.debug('Logging in')
-	return from(login(config)).pipe(
-		// Call bootstrap API to get lastUpdateId
-		switchMap(headers =>
-			from(
-				fetchit
-					.json(`${config.api_url}/bootstrap`, { headers })
-					.then(
-						result =>
-							<[Record<string, string>, string]>[
-								headers,
-								<string>result.lastUpdateId,
-							],
-					),
-			),
-		),
+export default function stream(
+	log: Logging,
+	config: UnifiPlatformConfig,
+	headers: LoginHeaders,
+	bootstrap: BootstrapResponse,
+): Observable<Message> {
+	// Open websocket
+	const url = `${config.ws_url}?lastUpdateId=${bootstrap.lastUpdateId}`
+	log.debug('Opening socket', url)
+	return webSocket({
+		url,
 
-		// Open websocket
-		switchMap(([headers, lastUpdateId]) => {
-			const url = `${config.ws_url}?lastUpdateId=${lastUpdateId}`
-			log.debug('Opening socket', url)
-			return webSocket({
-				url,
+		// Default deserializer will parse JSON, we need to maintain Buffer
+		deserializer: event => <BufferAcc>{ buffer: event.data },
 
-				// Default deserializer will parse JSON, we need to maintain Buffer
-				deserializer: event => <BufferAcc>{ buffer: event.data },
-
-				// webSocket doesn’t support passing through headers, so need this nasty workaround
-				WebSocketCtor: <any>class InternalWebSocket extends WebSocket {
-					constructor(url: string) {
-						super(url, { headers })
-					}
-				},
-			})
-		}),
-
+		// webSocket doesn’t support passing through headers, so need this nasty workaround
+		WebSocketCtor: <any>class InternalWebSocket extends WebSocket {
+			constructor(url: string) {
+				super(url, { headers })
+			}
+		},
+	}).pipe(
 		// Buffer/chunk messages until we have a complete header+body pair
 		scan((acc: BufferAcc, value: BufferAcc) => {
 			const buffer = acc.buffer ? Buffer.concat([acc.buffer, value.buffer!]) : value.buffer!
