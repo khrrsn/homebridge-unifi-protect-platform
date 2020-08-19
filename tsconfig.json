@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "outDir": "lib",
+    "target": "es2018"
+  },
+  "include": ["src/**/*.ts"]
+}
