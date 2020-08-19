@@ -16,7 +16,8 @@
   "license": "MIT",
   "scripts": {
     "build": "rm -fr build && tsc",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "dev:stream": "ts-node-dev --respawn --transpile-only utils/stream.ts"
   },
   "config": {
     "commitizen": {
