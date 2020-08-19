@@ -1,7 +1,7 @@
 {
-  "name": "homebridge-unifi-doorbell",
+  "name": "homebridge-unifi-protect-platform",
   "version": "0.0.0",
-  "description": "Homebridge plugin for UniFi doorbells.",
+  "description": "Homebridge platform for UniFi Protect with (Cameras, Doorbells).",
   "keywords": [
     "homebridge",
     "homebridge-plugin",
