@@ -5,6 +5,7 @@
   "keywords": [
     "homebridge",
     "homebridge-plugin",
+    "homebridge-platform",
     "unifi",
     "doorbell",
     "camera",
