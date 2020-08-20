@@ -1,10 +1,16 @@
+import { Camera, Nvr } from './api'
+
 import { Logging } from 'homebridge'
 import { LoginHeaders } from './login'
 import { UnifiPlatformConfig } from '../config'
 import fetchit from 'fetchit'
 
-export interface BootstrapResponse extends Record<string, string> {
+export interface BootstrapResponse {
 	lastUpdateId: string
+	authUserId: string
+	accessKey: string
+	cameras: Camera[]
+	nvr: Nvr
 }
 
 export default function bootstrap(

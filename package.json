@@ -15,9 +15,11 @@
     "category-outdoor"
   ],
   "license": "MIT",
+  "main": "lib/registerPlatform.js",
   "scripts": {
     "build": "rm -fr build && tsc",
     "commit": "git-cz",
+    "dev": "ts-node-dev --respawn --transpile-only utils/start.ts",
     "dev:stream": "ts-node-dev --respawn --transpile-only utils/stream.ts"
   },
   "config": {

@@ -1,0 +1,20 @@
+{
+  "bridge": {
+    "name": "Homebridge",
+    "username": "CC:22:3D:AA:AE:30",
+    "port": 51826,
+    "pin": "123-45-154"
+  },
+  "platforms": [
+    {
+      "platform": "unifi-doorbell",
+      "name": "unifi-doorbell",
+      "unifi": {
+        "controller": "https://10.0.1.1:443",
+        "controller_rtsp": "rtsp://10.0.1.1:7447",
+        "username": "homekit",
+        "password": "homekit"
+      }
+    }
+  ]
+}
