@@ -12,6 +12,10 @@ export interface UnifiPlatformConfig {
 	controller_rtsp: string
 	username: string
 	password: string
+	timeouts: {
+		default: number
+		snapshot: number
+	}
 }
 
 export function parseConfig(
@@ -59,5 +63,9 @@ export function parseConfig(
 		controller_rtsp: config.unifi.controller_rtsp,
 		username: config.unifi.username,
 		password: config.unifi.password,
+		timeouts: {
+			default: config.unifi.timeouts?.default ?? 30000,
+			snapshot: config.unifi.timeouts?.default ?? 15000,
+		},
 	}
 }

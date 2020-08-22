@@ -63,9 +63,11 @@ export interface ApiRequestInit extends FetchitRequestInit {
 export type Headers = Record<string, string>
 
 const headers = <Headers>{}
+let defaultTimeout = 0
 
 const api = <FetchIt>function api(uri: string, options?: ApiRequestInit): Promise<Response> {
 	options = options ?? {}
+	options.timeout = options.timeout ?? defaultTimeout
 	options.headers = Object.assign({}, headers, options.headers ?? {})
 
 	return fetchit(uri, options).then(response => {
@@ -96,6 +98,7 @@ export function init(log: Logging, config: UnifiPlatformConfig): Promise<void> {
 	}
 
 	log.info('Intiailizing')
+	defaultTimeout = config.timeouts.default
 	return api(config.controller_url).then(() => undefined)
 }
 
