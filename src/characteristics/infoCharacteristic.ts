@@ -1,7 +1,7 @@
 import { Camera } from '../protect/api'
-import { accessory } from './accessory'
+import { characteristic } from './characteristic'
 
-const infoAccessory = <accessory<Camera>>function infoAccessory(resources, services, _stream) {
+const infoCharacteristic = <characteristic<Camera>>function (resources, services, _stream) {
 	const { Characteristic, Service } = resources.hap
 	const { device } = services
 	resources.log.info(`Discovered: ${device.name}`)
@@ -28,6 +28,6 @@ const infoAccessory = <accessory<Camera>>function infoAccessory(resources, servi
 	})
 }
 
-infoAccessory.isAvailable = () => true
+infoCharacteristic.isAvailable = () => true
 
-export default infoAccessory
+export default infoCharacteristic

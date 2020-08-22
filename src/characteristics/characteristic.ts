@@ -1,9 +1,9 @@
 import { Message } from '../protect/message'
+import { Observable } from 'rxjs'
 import { ResourceProvider } from '../providers/resourceProvider'
 import { ServicesProvider } from '../providers/servicesProvider'
-import { Observable } from 'rxjs'
 
-export interface accessory<DeviceType extends { name: string }> {
+export interface characteristic<DeviceType extends { name: string }> {
 	(
 		resources: ResourceProvider,
 		services: ServicesProvider<DeviceType>,

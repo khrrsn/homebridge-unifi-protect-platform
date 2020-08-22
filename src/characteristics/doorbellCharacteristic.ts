@@ -1,10 +1,10 @@
 import { Camera } from '../protect/api'
-import { accessory } from './accessory'
+import { characteristic } from './characteristic'
 import { filter, mapTo } from 'rxjs/operators'
 
 const typeAllowlist = new Set(['UVC G4 Doorbell'])
 
-const doorbellAccessory = <accessory<Camera>>function doorbellAccessory({ hap }, services, stream) {
+const doorbellCharacteristic = <characteristic<Camera>>function ({ hap }, services, stream) {
 	const { Characteristic, Service } = hap
 	const onRing = stream.pipe(filter(message => message.body?.type === 'ring'))
 
@@ -29,7 +29,7 @@ const doorbellAccessory = <accessory<Camera>>function doorbellAccessory({ hap },
 		})
 }
 
-doorbellAccessory.isAvailable = device => {
+doorbellCharacteristic.isAvailable = device => {
 	return (
 		typeAllowlist.has(device.type) ||
 		(device.featureFlags?.hasChime === true &&
@@ -39,4 +39,4 @@ doorbellAccessory.isAvailable = device => {
 	)
 }
 
-export default doorbellAccessory
+export default doorbellCharacteristic

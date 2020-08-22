@@ -7,15 +7,20 @@ import stream from './protect/stream'
 import { Message } from './protect/message'
 import { Observable } from 'rxjs'
 import { share, filter } from 'rxjs/operators'
-import infoAccessory from './accessories/infoAccessory'
-import cameraAccessory from './accessories/cameraAccessory'
-import doorbellAccessory from './accessories/doorbellAccessory'
-import motionAccessory from './accessories/motionAccessory'
+import infoCharacteristic from './characteristics/infoCharacteristic'
+import cameraCharacteristic from './characteristics/cameraCharacteristic'
+import doorbellCharacteristic from './characteristics/doorbellCharacteristic'
+import motionCharacteristic from './characteristics/motionCharacteristic'
 import { platformName, pluginName } from './config'
 import resourceProvider, { ResourceProvider } from './providers/resourceProvider'
 import servicesProvider from './providers/servicesProvider'
 
-const accessories = [infoAccessory, cameraAccessory, doorbellAccessory, motionAccessory]
+const characteristics = [
+	infoCharacteristic,
+	cameraCharacteristic,
+	doorbellCharacteristic,
+	motionCharacteristic,
+]
 
 export default class UnifiPlatform implements DynamicPlatformPlugin {
 	private resources: ResourceProvider
@@ -74,12 +79,12 @@ export default class UnifiPlatform implements DynamicPlatformPlugin {
 				})()
 
 			const services = servicesProvider(this.resources, platformAccessory, camera)
-			for (const accessory of accessories) {
-				if (!accessory.isAvailable(camera)) {
+			for (const characteristic of characteristics) {
+				if (!characteristic.isAvailable(camera)) {
 					continue
 				}
 
-				accessory(this.resources, services, stream)
+				characteristic(this.resources, services, stream)
 			}
 
 			this.platformAccessories.set(uuid, platformAccessory)

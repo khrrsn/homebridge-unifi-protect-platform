@@ -17,7 +17,7 @@ import {
 import api, { Camera } from '../../protect/api'
 import { ResourceProvider } from '../../providers/resourceProvider'
 
-export default class CameraAccessoryStreamingDelegate implements CameraStreamingDelegate {
+export default class CameraCharacteristicStreamingDelegate implements CameraStreamingDelegate {
 	readonly controller: CameraController
 
 	constructor(private resources: ResourceProvider, private device: Camera) {
