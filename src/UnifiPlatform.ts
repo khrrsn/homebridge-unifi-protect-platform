@@ -7,20 +7,10 @@ import stream from './protect/stream'
 import { Message } from './protect/message'
 import { Observable } from 'rxjs'
 import { share, filter } from 'rxjs/operators'
-import infoCharacteristic from './characteristics/infoCharacteristic'
-import cameraCharacteristic from './characteristics/cameraCharacteristic'
-import doorbellCharacteristic from './characteristics/doorbellCharacteristic'
-import motionCharacteristic from './characteristics/motionCharacteristic'
+import characteristics from './characteristics'
 import { platformName, pluginName } from './config'
 import resourceProvider, { ResourceProvider } from './providers/resourceProvider'
 import servicesProvider from './providers/servicesProvider'
-
-const characteristics = [
-	infoCharacteristic,
-	cameraCharacteristic,
-	doorbellCharacteristic,
-	motionCharacteristic,
-]
 
 export default class UnifiPlatform implements DynamicPlatformPlugin {
 	private resources: ResourceProvider
