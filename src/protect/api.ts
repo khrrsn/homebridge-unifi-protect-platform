@@ -14,6 +14,12 @@ export interface Camera {
 	isMicEnabled: boolean
 	lastRing?: number | null
 	chimeDuration?: number
+	motionZones: {
+		name: string
+		color: string
+		points: any[]
+		sensitivity: number
+	}[]
 	talkbackSettings?: {
 		typeFmt: string
 		typeIn: string

@@ -10,6 +10,7 @@ import { multicast, filter } from 'rxjs/operators'
 import infoAccessory from './accessories/infoAccessory'
 import cameraAccessory from './accessories/cameraAccessory'
 import doorbellAccessory, { isDoorbell } from './accessories/doorbellAccessory'
+import motionAccessory, { hasMotionDetection } from './accessories/motionAccessory'
 import { platformName, pluginName } from './config'
 import resourceProvider, { ResourceProvider } from './providers/resourceProvider'
 import servicesProvider from './providers/servicesProvider'
@@ -76,6 +77,10 @@ export default class UnifiPlatform implements DynamicPlatformPlugin {
 
 			if (isDoorbell(camera)) {
 				doorbellAccessory(this.resources, services, camera, stream)
+			}
+
+			if (hasMotionDetection(camera)) {
+				motionAccessory(this.resources, services, camera, stream)
 			}
 
 			this.platformAccessories.set(uuid, platformAccessory)
