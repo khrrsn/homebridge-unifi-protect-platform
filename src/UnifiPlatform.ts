@@ -11,6 +11,7 @@ import CameraAccessory from './accessories/CameraAccessory'
 import DoorbellAccessory, { isDoorbell } from './accessories/DoorbellAccessory'
 import { platformName, pluginName } from './config'
 import resourceProvider, { ResourceProvider } from './providers/resourceProvider'
+import servicesProvider from './providers/servicesProvider'
 
 export default class UnifiPlatform implements DynamicPlatformPlugin {
 	private resources: ResourceProvider
@@ -68,10 +69,12 @@ export default class UnifiPlatform implements DynamicPlatformPlugin {
 					return accessory
 				})()
 
+			const services = servicesProvider(this.resources, platformAccessory, camera)
+
 			if (isDoorbell(camera)) {
-				new DoorbellAccessory(this.resources, platformAccessory, camera, stream)
+				new DoorbellAccessory(this.resources, services, stream)
 			} else {
-				new CameraAccessory(this.resources, platformAccessory, camera, stream)
+				new CameraAccessory(this.resources, services, stream)
 			}
 
 			this.platformAccessories.set(uuid, platformAccessory)

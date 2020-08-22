@@ -9,24 +9,24 @@ export default class CameraAccessory extends BaseAccessory<Camera> {
 		const { Characteristic, Service } = this.resources.hap
 
 		this.streamingDelegate = new CameraAccessoryStreamingDelegate(this.resources, this.device)
-		this.platformAccessory.configureController(this.streamingDelegate.controller)
+		this.services.platformAccessory.configureController(this.streamingDelegate.controller)
 
-		this.registerCharacteristic({
+		this.services.registerCharacteristic({
 			characteristicType: Characteristic.Manufacturer,
 			serviceType: Service.AccessoryInformation,
 			getValue: () => 'UniFi',
 		})
-		this.registerCharacteristic({
+		this.services.registerCharacteristic({
 			characteristicType: Characteristic.Model,
 			serviceType: Service.AccessoryInformation,
 			getValue: () => this.device.type,
 		})
-		this.registerCharacteristic({
+		this.services.registerCharacteristic({
 			characteristicType: Characteristic.SerialNumber,
 			serviceType: Service.AccessoryInformation,
 			getValue: () => this.device.id,
 		})
-		this.registerCharacteristic({
+		this.services.registerCharacteristic({
 			characteristicType: Characteristic.FirmwareRevision,
 			serviceType: Service.AccessoryInformation,
 			getValue: () => this.device.firmwareVersion,
