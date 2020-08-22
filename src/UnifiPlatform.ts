@@ -69,9 +69,23 @@ export default class UnifiPlatform implements DynamicPlatformPlugin {
 				})()
 
 			if (isDoorbell(camera)) {
-				new DoorbellAccessory(this.api, this.log, platformAccessory, camera, stream)
+				new DoorbellAccessory(
+					this.api,
+					this.log,
+					this.config,
+					platformAccessory,
+					camera,
+					stream,
+				)
 			} else {
-				new CameraAccessory(this.api, this.log, platformAccessory, camera, stream)
+				new CameraAccessory(
+					this.api,
+					this.log,
+					this.config,
+					platformAccessory,
+					camera,
+					stream,
+				)
 			}
 
 			this.platformAccessories.set(uuid, platformAccessory)

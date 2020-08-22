@@ -13,7 +13,10 @@
         "controller": "https://10.0.1.1:443",
         "controller_rtsp": "rtsp://10.0.1.1:7447",
         "username": "homekit",
-        "password": "homekit"
+        "password": "homekit",
+        "timeouts": {
+          "snapshot": 1000
+        }
       }
     }
   ]

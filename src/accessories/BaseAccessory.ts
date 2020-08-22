@@ -11,10 +11,11 @@ import {
 	Service,
 	WithUUID,
 } from 'homebridge'
-import { Observable, Subject } from 'rxjs'
-import { debounceTime, publishReplay, refCount, take } from 'rxjs/operators'
+import { publishReplay, refCount, take } from 'rxjs/operators'
 
 import { Message } from '../protect/message'
+import { Observable } from 'rxjs'
+import { UnifiPlatformConfig } from '../config'
 
 export type CharacteristicType = WithUUID<{ new (): Characteristic }>
 export type ServiceType = WithUUID<typeof Service> | Service
@@ -29,6 +30,7 @@ export default abstract class BaseAccessory<DeviceType extends { name: string }>
 	constructor(
 		public readonly api: API,
 		public readonly log: Logging,
+		public readonly config: UnifiPlatformConfig,
 		public readonly platformAccessory: PlatformAccessory,
 		public readonly device: DeviceType,
 		public readonly stream: Observable<Message>,
