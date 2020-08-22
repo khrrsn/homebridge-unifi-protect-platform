@@ -4,10 +4,10 @@ import { map, scan, filter } from 'rxjs/operators'
 import { Logging } from 'homebridge'
 import { UnifiPlatformConfig } from '../config'
 import WebSocket from 'ws'
-import { LoginHeaders } from './login'
 import { BootstrapResponse } from './bootstrap'
 import { webSocket } from 'rxjs/webSocket'
 import { HEADER_SIZE, HeaderBytes, parseMessageSection, Message } from './message'
+import { getHeaders } from './api'
 
 interface BufferAcc {
 	buffer?: Buffer
@@ -20,7 +20,6 @@ interface BufferAcc {
 export default function stream(
 	log: Logging,
 	config: UnifiPlatformConfig,
-	headers: LoginHeaders,
 	bootstrap: BootstrapResponse,
 ): Observable<Message> {
 	// Open websocket
@@ -35,7 +34,7 @@ export default function stream(
 		// webSocket doesn’t support passing through headers, so need this nasty workaround
 		WebSocketCtor: <any>class InternalWebSocket extends WebSocket {
 			constructor(url: string) {
-				super(url, { headers })
+				super(url, { headers: getHeaders() })
 			}
 		},
 	}).pipe(

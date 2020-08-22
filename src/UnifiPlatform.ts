@@ -39,9 +39,9 @@ export default class UnifiPlatform implements DynamicPlatformPlugin {
 	}
 
 	private async didFinishLaunching() {
-		const headers = await login(this.log, this.config)
-		const json = await bootstrap(this.log, this.config, headers)
-		this.stream = stream(this.log, this.config, headers, json).pipe(
+		await login(this.log, this.config)
+		const json = await bootstrap(this.log, this.config)
+		this.stream = stream(this.log, this.config, json).pipe(
 			multicast(() => new Subject<Message>()),
 		)
 

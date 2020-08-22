@@ -33,9 +33,9 @@ const log = <Logging>{
 }
 
 async function run() {
-	const headers = await login(log, platformConfig)
-	const json = await bootstrap(log, platformConfig, headers)
-	stream(log, platformConfig, headers, json).subscribe(data => {
+	await login(log, platformConfig)
+	const json = await bootstrap(log, platformConfig)
+	stream(log, platformConfig, json).subscribe(data => {
 		console.log(data)
 	})
 }
