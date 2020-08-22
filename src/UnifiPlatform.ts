@@ -9,8 +9,8 @@ import { Observable } from 'rxjs'
 import { share, filter } from 'rxjs/operators'
 import infoAccessory from './accessories/infoAccessory'
 import cameraAccessory from './accessories/cameraAccessory'
-import doorbellAccessory, { isDoorbell } from './accessories/doorbellAccessory'
-import motionAccessory, { hasMotionDetection } from './accessories/motionAccessory'
+import doorbellAccessory from './accessories/doorbellAccessory'
+import motionAccessory from './accessories/motionAccessory'
 import { platformName, pluginName } from './config'
 import resourceProvider, { ResourceProvider } from './providers/resourceProvider'
 import servicesProvider from './providers/servicesProvider'
@@ -75,11 +75,11 @@ export default class UnifiPlatform implements DynamicPlatformPlugin {
 			infoAccessory(this.resources, services, camera, stream)
 			cameraAccessory(this.resources, services, camera, stream)
 
-			if (isDoorbell(camera)) {
+			if (doorbellAccessory.isAvailable(camera)) {
 				doorbellAccessory(this.resources, services, camera, stream)
 			}
 
-			if (hasMotionDetection(camera)) {
+			if (motionAccessory.isAvailable(camera)) {
 				motionAccessory(this.resources, services, camera, stream)
 			}
 

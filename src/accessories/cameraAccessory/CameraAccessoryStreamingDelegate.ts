@@ -58,12 +58,9 @@ export default class CameraAccessoryStreamingDelegate implements CameraStreaming
 	async handleSnapshotRequest(request: SnapshotRequest, callback: SnapshotRequestCallback) {
 		try {
 			this.resources.log.debug(`Fetching snapshot for ${this.device.name}`)
-			const response = await api(
-				`${this.resources.config.api_url}/cameras/${this.device.id}/snapshot`,
-				<any>{
-					timeout: this.resources.config.timeouts.snapshot,
-				},
-			)
+			const response = await api(`${this.resources.config.api_url}/cameras/${this.device.id}/snapshot`, <any>{
+				timeout: this.resources.config.timeouts.snapshot,
+			})
 			callback(undefined, await (<any>response).buffer())
 		} catch (error) {
 			this.resources.log.debug(`Error fetching snapshot for ${this.device.name}`, error)

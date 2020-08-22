@@ -2,7 +2,7 @@ import { Camera } from '../protect/api'
 import { accessory } from './accessory'
 import { filter, map } from 'rxjs/operators'
 
-export default <accessory<Camera>>function motionAccessory({ hap }, services, _device, stream) {
+const motionAccessory = <accessory<Camera>>function motionAccessory({ hap }, services, _device, stream) {
 	const { Characteristic, Service } = hap
 
 	services.registerObservableCharacteristic({
@@ -15,6 +15,8 @@ export default <accessory<Camera>>function motionAccessory({ hap }, services, _d
 	})
 }
 
-export function hasMotionDetection(camera: Camera) {
-	return camera.motionZones?.length ?? 0 > 0
+motionAccessory.isAvailable = device => {
+	return (device.motionZones?.length ?? 0) > 0
 }
+
+export default motionAccessory

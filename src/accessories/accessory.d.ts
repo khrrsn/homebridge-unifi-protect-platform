@@ -10,4 +10,6 @@ export interface accessory<DeviceType extends { name: string }> {
 		device: DeviceType,
 		stream: Observable<Message>,
 	): void
+
+	isAvailable(device: DeviceType): boolean
 }

@@ -1,7 +1,7 @@
 import { Camera } from '../protect/api'
 import { accessory } from './accessory'
 
-export default <accessory<Camera>>function infoAccessory(resources, services, device) {
+const infoAccessory = <accessory<Camera>>function infoAccessory(resources, services, device, _stream) {
 	const { Characteristic, Service } = resources.hap
 	resources.log.info(`Discovered: ${services.device.name}`)
 
@@ -26,3 +26,7 @@ export default <accessory<Camera>>function infoAccessory(resources, services, de
 		getValue: () => device.firmwareVersion,
 	})
 }
+
+infoAccessory.isAvailable = () => true
+
+export default infoAccessory
