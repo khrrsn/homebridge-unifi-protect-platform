@@ -6,14 +6,9 @@ export default class CameraAccessory extends BaseAccessory<Camera> {
 	private streamingDelegate?: CameraAccessoryStreamingDelegate
 
 	protected setup() {
-		const { Characteristic, Service } = this.api.hap
+		const { Characteristic, Service } = this.resources.hap
 
-		this.streamingDelegate = new CameraAccessoryStreamingDelegate(
-			this.api,
-			this.log,
-			this.config,
-			this.device,
-		)
+		this.streamingDelegate = new CameraAccessoryStreamingDelegate(this.resources, this.device)
 		this.platformAccessory.configureController(this.streamingDelegate.controller)
 
 		this.registerCharacteristic({

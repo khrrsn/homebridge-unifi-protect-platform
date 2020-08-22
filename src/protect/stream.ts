@@ -1,8 +1,7 @@
 import { Observable } from 'rxjs'
 import { map, scan, filter } from 'rxjs/operators'
 
-import { Logging } from 'homebridge'
-import { UnifiPlatformConfig } from '../config'
+import { ResourceProvider } from '../providers/resourceProvider'
 import WebSocket from 'ws'
 import { BootstrapResponse } from './bootstrap'
 import { webSocket } from 'rxjs/webSocket'
@@ -18,8 +17,7 @@ interface BufferAcc {
 }
 
 export default function stream(
-	log: Logging,
-	config: UnifiPlatformConfig,
+	{ config, log }: ResourceProvider,
 	bootstrap: BootstrapResponse,
 ): Observable<Message> {
 	// Open websocket

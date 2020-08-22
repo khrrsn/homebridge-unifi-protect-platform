@@ -1,8 +1,6 @@
 import api, { Camera, Nvr } from './api'
 
-import { Logging } from 'homebridge'
-import { UnifiPlatformConfig } from '../config'
-import fetchit from 'fetchit'
+import { ResourceProvider } from '../providers/resourceProvider'
 
 export interface BootstrapResponse {
 	lastUpdateId: string
@@ -12,10 +10,7 @@ export interface BootstrapResponse {
 	nvr: Nvr
 }
 
-export default function bootstrap(
-	log: Logging,
-	config: UnifiPlatformConfig,
-): Promise<BootstrapResponse> {
-	log.debug(`Bootstrapping`)
+export default function bootstrap({ log, config }: ResourceProvider): Promise<BootstrapResponse> {
+	log.debug('Bootstrapping')
 	return api.json(`${config.api_url}/bootstrap`)
 }

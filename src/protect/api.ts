@@ -1,7 +1,6 @@
 import { FetchIt, FetchitRequestInit } from 'fetchit/lib/types/fetchit'
 import fetchit from 'fetchit'
-import { Logging } from 'homebridge'
-import { UnifiPlatformConfig } from '../config'
+import { ResourceProvider } from '../providers/resourceProvider'
 
 export interface Camera {
 	id: string
@@ -92,7 +91,7 @@ export function getHeaders(): Headers {
 	return { ...headers }
 }
 
-export function init(log: Logging, config: UnifiPlatformConfig): Promise<void> {
+export function init({ log, config }: ResourceProvider): Promise<void> {
 	if ((headers['X-CSRF-Token']?.length ?? 0) > 0 && (headers.Cookie?.length ?? 0) > 0) {
 		return Promise.resolve()
 	}

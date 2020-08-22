@@ -10,26 +10,27 @@ import { multicast, filter } from 'rxjs/operators'
 import CameraAccessory from './accessories/CameraAccessory'
 import DoorbellAccessory, { isDoorbell } from './accessories/DoorbellAccessory'
 import { platformName, pluginName } from './config'
+import resourceProvider, { ResourceProvider } from './providers/resourceProvider'
 
 export default class UnifiPlatform implements DynamicPlatformPlugin {
-	private config: UnifiPlatformConfig
+	private resources: ResourceProvider
 	private stream?: Observable<Message>
 	private readonly platformAccessories = new Map<string, PlatformAccessory>()
 
 	constructor(
-		public log: Logging,
+		log: Logging,
 		config: PlatformConfig & { unifi?: Partial<UnifiPlatformConfig> },
-		public api: API,
+		api: API,
 	) {
 		try {
-			this.config = parseConfig(config)
+			this.resources = resourceProvider(api, log, parseConfig(config))
 		} catch (error) {
 			log.error(error.message)
-			this.config = <any>{} // Silence ts error
+			this.resources = <any>{} // Silence ts error
 			return
 		}
 
-		this.api.on('didFinishLaunching', async () => {
+		this.resources.api.on('didFinishLaunching', async () => {
 			try {
 				await this.didFinishLaunching()
 			} catch (error) {
@@ -39,53 +40,38 @@ export default class UnifiPlatform implements DynamicPlatformPlugin {
 	}
 
 	private async didFinishLaunching() {
-		await login(this.log, this.config)
-		const json = await bootstrap(this.log, this.config)
-		this.stream = stream(this.log, this.config, json).pipe(
-			multicast(() => new Subject<Message>()),
-		)
+		await login(this.resources)
+		const json = await bootstrap(this.resources)
+		this.stream = stream(this.resources, json).pipe(multicast(() => new Subject<Message>()))
 
 		const newPlatformAccessories: PlatformAccessory[] = []
 		const activeAccessoryIds = new Set<string>()
 		const cachedAccessoryIds = Array.from(this.platformAccessories.keys())
+		const { api, hap, log } = this.resources
 
 		for (const camera of json.cameras) {
-			const uuid = this.api.hap.uuid.generate(camera.id)
+			const uuid = api.hap.uuid.generate(camera.id)
 			const stream = this.stream.pipe(filter(message => message.header.id === camera.id))
 
 			const platformAccessory =
 				this.platformAccessories.get(uuid) ??
 				(() => {
-					const accessory = new this.api.platformAccessory(
+					const accessory = new api.platformAccessory(
 						camera.name,
 						uuid,
-						this.api.hap.Categories.CAMERA,
+						hap.Categories.CAMERA,
 					)
 
-					this.log.info(`Adding new accessory ${uuid}: ${camera.type}/${camera.name}`)
+					log.info(`Adding new accessory ${uuid}: ${camera.type}/${camera.name}`)
 					newPlatformAccessories.push(accessory)
 
 					return accessory
 				})()
 
 			if (isDoorbell(camera)) {
-				new DoorbellAccessory(
-					this.api,
-					this.log,
-					this.config,
-					platformAccessory,
-					camera,
-					stream,
-				)
+				new DoorbellAccessory(this.resources, platformAccessory, camera, stream)
 			} else {
-				new CameraAccessory(
-					this.api,
-					this.log,
-					this.config,
-					platformAccessory,
-					camera,
-					stream,
-				)
+				new CameraAccessory(this.resources, platformAccessory, camera, stream)
 			}
 
 			this.platformAccessories.set(uuid, platformAccessory)
@@ -93,7 +79,7 @@ export default class UnifiPlatform implements DynamicPlatformPlugin {
 		}
 
 		if (newPlatformAccessories.length > 0) {
-			this.api.registerPlatformAccessories(pluginName, platformName, newPlatformAccessories)
+			api.registerPlatformAccessories(pluginName, platformName, newPlatformAccessories)
 		}
 
 		const staleAccessories = <PlatformAccessory[]>(
@@ -103,18 +89,20 @@ export default class UnifiPlatform implements DynamicPlatformPlugin {
 		)
 
 		staleAccessories.forEach(staleAccessory => {
-			this.log.info(
+			log.info(
 				`Removing stale cached accessory ${staleAccessory.UUID} ${staleAccessory.displayName}`,
 			)
 		})
 
 		if (staleAccessories.length) {
-			this.api.unregisterPlatformAccessories(pluginName, platformName, staleAccessories)
+			api.unregisterPlatformAccessories(pluginName, platformName, staleAccessories)
 		}
 	}
 
 	configureAccessory(accessory: PlatformAccessory) {
-		this.log.info(`Configuring cached accessory ${accessory.UUID} ${accessory.displayName}`)
+		this.resources.log.info(
+			`Configuring cached accessory ${accessory.UUID} ${accessory.displayName}`,
+		)
 		this.platformAccessories.set(accessory.UUID, accessory)
 	}
 }

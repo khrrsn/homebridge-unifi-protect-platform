@@ -15,7 +15,7 @@ import { publishReplay, refCount, take } from 'rxjs/operators'
 
 import { Message } from '../protect/message'
 import { Observable } from 'rxjs'
-import { UnifiPlatformConfig } from '../config'
+import { ResourceProvider } from '../providers/resourceProvider'
 
 export type CharacteristicType = WithUUID<{ new (): Characteristic }>
 export type ServiceType = WithUUID<typeof Service> | Service
@@ -28,14 +28,12 @@ export default abstract class BaseAccessory<DeviceType extends { name: string }>
 	private servicesInUse: Service[] = []
 
 	constructor(
-		public readonly api: API,
-		public readonly log: Logging,
-		public readonly config: UnifiPlatformConfig,
+		public readonly resources: ResourceProvider,
 		public readonly platformAccessory: PlatformAccessory,
 		public readonly device: DeviceType,
 		public readonly stream: Observable<Message>,
 	) {
-		this.log.info(`Discovered ${this.constructor.name}: ${device.name}`)
+		this.resources.log.info(`Discovered ${this.constructor.name}: ${device.name}`)
 		this.setup()
 	}
 
@@ -110,7 +108,7 @@ export default abstract class BaseAccessory<DeviceType extends { name: string }>
 				CharacteristicEventTypes.SET,
 				(newValue: CharacteristicValue, callback: CharacteristicSetCallback) => {
 					Promise.resolve(setValue(newValue as T)).catch(error => {
-						this.log.error(error)
+						this.resources.log.error(error)
 					})
 					callback()
 				},
@@ -141,7 +139,7 @@ export default abstract class BaseAccessory<DeviceType extends { name: string }>
 				CharacteristicEventTypes.SET,
 				(newValue: CharacteristicValue, callback: CharacteristicSetCallback) => {
 					Promise.resolve(setValue(newValue)).catch(e => {
-						this.log.error(e)
+						this.resources.log.error(e)
 					})
 					callback()
 				},
@@ -154,7 +152,7 @@ export default abstract class BaseAccessory<DeviceType extends { name: string }>
 					callback(null, value)
 				})
 				.catch(error => {
-					this.log.error(error)
+					this.resources.log.error(error)
 					callback(error)
 				})
 		})

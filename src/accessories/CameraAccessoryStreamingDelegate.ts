@@ -16,18 +16,13 @@ import {
 	Logging,
 } from 'homebridge'
 import api, { Camera } from '../protect/api'
-import { UnifiPlatformConfig } from '../config'
+import { ResourceProvider } from '../providers/resourceProvider'
 
 export class CameraAccessoryStreamingDelegate implements CameraStreamingDelegate {
 	readonly controller: CameraController
 
-	constructor(
-		private api: API,
-		private log: Logging,
-		private config: UnifiPlatformConfig,
-		private device: Camera,
-	) {
-		this.controller = new api.hap.CameraController({
+	constructor(private resources: ResourceProvider, private device: Camera) {
+		this.controller = new resources.hap.CameraController({
 			cameraStreamCount: 2,
 			delegate: this,
 			streamingOptions: {
@@ -63,24 +58,27 @@ export class CameraAccessoryStreamingDelegate implements CameraStreamingDelegate
 
 	async handleSnapshotRequest(request: SnapshotRequest, callback: SnapshotRequestCallback) {
 		try {
-			this.log.debug(`Fetching snapshot for ${this.device.name}`)
-			const response = api(`${this.config.api_url}/cameras/${this.device.id}/snapshot`, <any>{
-				timeout: this.config.timeouts.snapshot,
-			})
+			this.resources.log.debug(`Fetching snapshot for ${this.device.name}`)
+			const response = api(
+				`${this.resources.config.api_url}/cameras/${this.device.id}/snapshot`,
+				<any>{
+					timeout: this.resources.config.timeouts.snapshot,
+				},
+			)
 			callback(undefined, await (<any>response).buffer())
 		} catch (error) {
-			this.log.debug(`Error fetching snapshot for ${this.device.name}`, error)
+			this.resources.log.debug(`Error fetching snapshot for ${this.device.name}`, error)
 			callback(error)
 		}
 	}
 
 	prepareStream(request: PrepareStreamRequest, callback: PrepareStreamCallback) {
-		this.log.info('prepareStream', this.device.name)
+		this.resources.log.info('prepareStream', this.device.name)
 		callback(new Error('TODO'))
 	}
 
 	handleStreamRequest(request: StreamingRequest, callback: StreamRequestCallback) {
-		this.log.info('handleStreamRequest', this.device.name)
+		this.resources.log.info('handleStreamRequest', this.device.name)
 		callback(new Error('TODO'))
 	}
 }

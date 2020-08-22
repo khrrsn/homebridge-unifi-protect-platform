@@ -1,11 +1,11 @@
 import api, { init } from './api'
 
-import { Logging } from 'homebridge'
-import { UnifiPlatformConfig } from '../config'
+import { ResourceProvider } from '../providers/resourceProvider'
 
-export default async function login(log: Logging, config: UnifiPlatformConfig): Promise<void> {
-	await init(log, config)
-	log.debug(`Logging in as ${config.username}`)
+export default async function login(resources: ResourceProvider): Promise<void> {
+	const { config } = resources
+	await init(resources)
+	resources.log.debug(`Logging in as ${config.username}`)
 	await api(`${config.controller_url}/api/auth/login`, {
 		body: { username: config.username, password: config.password },
 		method: 'POST',

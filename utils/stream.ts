@@ -4,6 +4,7 @@
 
 import { Logging } from 'homebridge'
 import { parseConfig } from '../src/config'
+import resourceProvider from '../src/providers/resourceProvider'
 import dotenv from 'dotenv'
 import login from '../src/protect/login'
 import bootstrap from '../src/protect/bootstrap'
@@ -33,9 +34,10 @@ const log = <Logging>{
 }
 
 async function run() {
-	await login(log, platformConfig)
-	const json = await bootstrap(log, platformConfig)
-	stream(log, platformConfig, json).subscribe(data => {
+	const resources = resourceProvider(<any>{}, log, platformConfig)
+	await login(resources)
+	const json = await bootstrap(resources)
+	stream(resources, json).subscribe(data => {
 		console.log(data)
 	})
 }
