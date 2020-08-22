@@ -1,4 +1,6 @@
+const extensions = ['ts', 'js', 'cjs', 'json', 'yaml', 'yml', 'markdown'].join(',')
+
 module.exports = {
-	'**/*.{ts,js,cjs,json,yaml,yml}': 'prettier --write',
-	'*.{ts,js,cjs,json,yaml,yml}': 'prettier --write',
+	[`**/*.{${extensions}}`]: 'prettier --write',
+	[`*.{${extensions}}`]: 'prettier --write',
 }
