@@ -14,7 +14,7 @@ export interface Message {
 	header: {
 		action: string
 		newUpdateId: string
-		modelKey: 'camera' | 'light' | 'nvr' | 'sensor' | 'viewer' | 'user'
+		modelKey: 'camera' | 'light' | 'nvr' | 'sensor' | 'viewer' | 'user' | 'event'
 		id: string
 	}
 	body: any
