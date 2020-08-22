@@ -1,3 +1,4 @@
+import batteryCharacteristic from './batteryCharacteristic'
 import cameraCharacteristic from './cameraCharacteristic'
 import doorbellCharacteristic from './doorbellCharacteristic'
 import infoCharacteristic from './infoCharacteristic'
@@ -8,6 +9,7 @@ const characteristics = Object.freeze([
 	cameraCharacteristic,
 	doorbellCharacteristic,
 	motionCharacteristic,
+	batteryCharacteristic,
 ])
 
 export default characteristics

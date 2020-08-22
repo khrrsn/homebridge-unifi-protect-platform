@@ -34,6 +34,7 @@ export interface Camera {
 		hasChime: boolean
 		hasMic: boolean
 		hasSpeaker: boolean
+		hasBattery: boolean
 	}
 	lcdMessage?: any
 	modelKey: string
