@@ -1,10 +1,10 @@
 import { Camera } from '../protect/api'
-import CameraAccessory from './CameraAccessory'
+import { accessory } from './accessory'
 
 const typeAllowlist = new Set(['UVC G4 Doorbell'])
 
-export default class DoorbellAccessory extends CameraAccessory {
-	//
+export default <accessory<Camera>>function doorbellAccessory() {
+	// TODO
 }
 
 export function isDoorbell(camera: Camera) {

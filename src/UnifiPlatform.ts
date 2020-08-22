@@ -7,8 +7,8 @@ import stream from './protect/stream'
 import { Message } from './protect/message'
 import { Observable, Subject } from 'rxjs'
 import { multicast, filter } from 'rxjs/operators'
-import CameraAccessory from './accessories/CameraAccessory'
-import DoorbellAccessory, { isDoorbell } from './accessories/DoorbellAccessory'
+import cameraAccessory from './accessories/cameraAccessory'
+import doorbellAccessory, { isDoorbell } from './accessories/doorbellAccessory'
 import { platformName, pluginName } from './config'
 import resourceProvider, { ResourceProvider } from './providers/resourceProvider'
 import servicesProvider from './providers/servicesProvider'
@@ -70,11 +70,11 @@ export default class UnifiPlatform implements DynamicPlatformPlugin {
 				})()
 
 			const services = servicesProvider(this.resources, platformAccessory, camera)
+			this.resources.log.info(`Discovered: ${services.device.name}`)
+			cameraAccessory(this.resources, services, camera, stream)
 
 			if (isDoorbell(camera)) {
-				new DoorbellAccessory(this.resources, services, stream)
-			} else {
-				new CameraAccessory(this.resources, services, stream)
+				doorbellAccessory(this.resources, services, camera, stream)
 			}
 
 			this.platformAccessories.set(uuid, platformAccessory)

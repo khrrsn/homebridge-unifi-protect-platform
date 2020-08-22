@@ -1,5 +1,4 @@
 import {
-	API,
 	AudioStreamingCodecType,
 	AudioStreamingSamplerate,
 	CameraController,
@@ -13,12 +12,12 @@ import {
 	SnapshotRequestCallback,
 	StreamRequestCallback,
 	StreamingRequest,
-	Logging,
 } from 'homebridge'
-import api, { Camera } from '../protect/api'
-import { ResourceProvider } from '../providers/resourceProvider'
 
-export class CameraAccessoryStreamingDelegate implements CameraStreamingDelegate {
+import api, { Camera } from '../../protect/api'
+import { ResourceProvider } from '../../providers/resourceProvider'
+
+export default class CameraAccessoryStreamingDelegate implements CameraStreamingDelegate {
 	readonly controller: CameraController
 
 	constructor(private resources: ResourceProvider, private device: Camera) {
