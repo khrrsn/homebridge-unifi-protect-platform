@@ -5,11 +5,28 @@
 [![Build Status](https://cloud.drone.io/api/badges/shnhrrsn/homebridge-unifi-protect-platform/status.svg)](https://cloud.drone.io/shnhrrsn/homebridge-unifi-protect-platform)
 [![License](https://img.shields.io/npm/l/homebridge-unifi-protect-platform.svg)](https://www.npmjs.com/package/homebridge-unifi-protect-platform)
 
-UniFi Protect platform for Homebridge.
+UniFi Protect platform for Homebridge with support for realtime events from UniFi Cameras and Doorbells.
+
+> _NOTE:_ This only works with UniFi OS capable devices (UDM-Pro); it has been not been tested with the vanilla UCK-G2.
 
 ## Installation
 
 TODO
+
+### Supported Features
+
+- Camera
+- Doorbell Events (Push)
+- Motion Event (Push)
+
+> Unlike other UniFi Homebridge platforms, this platform provides realtime events and does not poll at set intervals. This means you’ll get doorbell and motion events pushed to HomeKit instantaneously.
+
+### Tested Devices
+
+- UDM-Pro
+- UVC-G3
+- UVC-G3-Dome
+- UVC-G4-Doorbell
 
 ## Configuration
 
