@@ -5,8 +5,8 @@ import login from './protect/login'
 import bootstrap from './protect/bootstrap'
 import stream from './protect/stream'
 import { Message } from './protect/message'
-import { Observable, Subject } from 'rxjs'
-import { multicast, filter } from 'rxjs/operators'
+import { Observable } from 'rxjs'
+import { share, filter } from 'rxjs/operators'
 import infoAccessory from './accessories/infoAccessory'
 import cameraAccessory from './accessories/cameraAccessory'
 import doorbellAccessory, { isDoorbell } from './accessories/doorbellAccessory'
@@ -45,7 +45,7 @@ export default class UnifiPlatform implements DynamicPlatformPlugin {
 	private async didFinishLaunching() {
 		await login(this.resources)
 		const json = await bootstrap(this.resources)
-		this.stream = stream(this.resources, json).pipe(multicast(() => new Subject<Message>()))
+		this.stream = stream(this.resources, json).pipe(share())
 
 		const newPlatformAccessories: PlatformAccessory[] = []
 		const activeAccessoryIds = new Set<string>()
