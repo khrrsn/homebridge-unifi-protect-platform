@@ -1,9 +1,10 @@
-# homebridge-unifi-protect-platform
+<p align="center">
+<a href="https://www.npmjs.com/package/homebridge-unifi-protect-platform"><img src="https://img.shields.io/npm/v/homebridge-unifi-protect-platform.svg" alt="Latest Version"></a>
+<a href="https://www.npmjs.com/package/homebridge-unifi-protect-platform"><img src="https://img.shields.io/npm/dt/homebridge-unifi-protect-platform.svg" alt="Total Downloads"></a>
+<a href="./LICENSE"><img src="https://img.shields.io/npm/l/homebridge-unifi-protect-platform.svg" alt="License"></a>
+</p>
 
-[![Latest Version](https://img.shields.io/npm/v/homebridge-unifi-protect-platform.svg)](https://www.npmjs.com/package/homebridge-unifi-protect-platform)
-[![Total Downloads](https://img.shields.io/npm/dt/homebridge-unifi-protect-platform.svg)](https://www.npmjs.com/package/homebridge-unifi-protect-platform)
-[![Build Status](https://cloud.drone.io/api/badges/shnhrrsn/homebridge-unifi-protect-platform/status.svg)](https://cloud.drone.io/shnhrrsn/homebridge-unifi-protect-platform)
-[![License](https://img.shields.io/npm/l/homebridge-unifi-protect-platform.svg)](https://www.npmjs.com/package/homebridge-unifi-protect-platform)
+# homebridge-unifi-protect-platform
 
 UniFi Protect platform for Homebridge with support for realtime events from UniFi Cameras and Doorbells.
 
@@ -15,11 +16,11 @@ TODO
 
 ### Supported Features
 
+Unlike other UniFi Homebridge platforms, this platform provides realtime events and does not poll at set intervals. This means you’ll get doorbell and motion events pushed to HomeKit instantaneously.
+
 - Camera
 - Doorbell Events (Push)
 - Motion Event (Push)
-
-> Unlike other UniFi Homebridge platforms, this platform provides realtime events and does not poll at set intervals. This means you’ll get doorbell and motion events pushed to HomeKit instantaneously.
 
 ### Tested Devices
 
