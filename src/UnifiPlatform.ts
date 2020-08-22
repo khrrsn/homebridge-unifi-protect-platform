@@ -15,6 +15,8 @@ import { platformName, pluginName } from './config'
 import resourceProvider, { ResourceProvider } from './providers/resourceProvider'
 import servicesProvider from './providers/servicesProvider'
 
+const accessories = [infoAccessory, cameraAccessory, doorbellAccessory, motionAccessory]
+
 export default class UnifiPlatform implements DynamicPlatformPlugin {
 	private resources: ResourceProvider
 	private stream?: Observable<Message>
@@ -72,15 +74,12 @@ export default class UnifiPlatform implements DynamicPlatformPlugin {
 				})()
 
 			const services = servicesProvider(this.resources, platformAccessory, camera)
-			infoAccessory(this.resources, services, camera, stream)
-			cameraAccessory(this.resources, services, camera, stream)
+			for (const accessory of accessories) {
+				if (!accessory.isAvailable(camera)) {
+					continue
+				}
 
-			if (doorbellAccessory.isAvailable(camera)) {
-				doorbellAccessory(this.resources, services, camera, stream)
-			}
-
-			if (motionAccessory.isAvailable(camera)) {
-				motionAccessory(this.resources, services, camera, stream)
+				accessory(this.resources, services, camera, stream)
 			}
 
 			this.platformAccessories.set(uuid, platformAccessory)
