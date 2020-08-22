@@ -7,7 +7,6 @@ export interface accessory<DeviceType extends { name: string }> {
 	(
 		resources: ResourceProvider,
 		services: ServicesProvider<DeviceType>,
-		device: DeviceType,
 		stream: Observable<Message>,
 	): void
 

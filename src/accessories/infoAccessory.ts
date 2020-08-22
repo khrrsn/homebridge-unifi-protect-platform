@@ -1,9 +1,10 @@
 import { Camera } from '../protect/api'
 import { accessory } from './accessory'
 
-const infoAccessory = <accessory<Camera>>function infoAccessory(resources, services, device, _stream) {
+const infoAccessory = <accessory<Camera>>function infoAccessory(resources, services, _stream) {
 	const { Characteristic, Service } = resources.hap
-	resources.log.info(`Discovered: ${services.device.name}`)
+	const { device } = services
+	resources.log.info(`Discovered: ${device.name}`)
 
 	services.registerCharacteristic({
 		characteristicType: Characteristic.Manufacturer,

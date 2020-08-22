@@ -4,7 +4,7 @@ import { filter, mapTo } from 'rxjs/operators'
 
 const typeAllowlist = new Set(['UVC G4 Doorbell'])
 
-const doorbellAccessory = <accessory<Camera>>function doorbellAccessory({ hap }, services, _device, stream) {
+const doorbellAccessory = <accessory<Camera>>function doorbellAccessory({ hap }, services, stream) {
 	const { Characteristic, Service } = hap
 	const onRing = stream.pipe(filter(message => message.body?.type === 'ring'))
 

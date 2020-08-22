@@ -2,7 +2,7 @@ import { Camera } from '../protect/api'
 import { accessory } from './accessory'
 import { filter, map } from 'rxjs/operators'
 
-const motionAccessory = <accessory<Camera>>function motionAccessory({ hap }, services, _device, stream) {
+const motionAccessory = <accessory<Camera>>function motionAccessory({ hap }, services, stream) {
 	const { Characteristic, Service } = hap
 
 	services.registerObservableCharacteristic({

@@ -79,7 +79,7 @@ export default class UnifiPlatform implements DynamicPlatformPlugin {
 					continue
 				}
 
-				accessory(this.resources, services, camera, stream)
+				accessory(this.resources, services, stream)
 			}
 
 			this.platformAccessories.set(uuid, platformAccessory)
