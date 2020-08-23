@@ -38,7 +38,7 @@ export interface ServicesProvider<DeviceType extends { name: string }> {
 		characteristicType: CharacteristicType
 		serviceType: ServiceType
 		serviceSubType?: string
-		onValue: Observable<T>
+		observable: Observable<T>
 		setValue?: (value: T) => any
 		name?: string
 		requestUpdate?: () => any
@@ -86,28 +86,29 @@ export default function servicesProvider<DeviceType extends { name: string }>(
 			characteristicType,
 			serviceType,
 			serviceSubType,
-			onValue,
+			observable,
 			setValue,
 			name,
 			requestUpdate,
 		}) {
 			const service = this.getService(serviceType, name ?? device.name, serviceSubType)
 			const characteristic = service.getCharacteristic(characteristicType)
-			const onCachedValue = onValue.pipe(publishReplay(1), refCount())
+			const cachedObservable = observable.pipe(publishReplay(1), refCount())
 
-			onCachedValue.subscribe(value => {
+			cachedObservable.subscribe(value => {
+				console.log('update value', value)
 				characteristic.updateValue(value)
 			})
 
 			if (requestUpdate) {
 				// Only register for GET if an async request should be made to get an updated value
-				onCachedValue.pipe(take(1)).subscribe(() => {
+				cachedObservable.pipe(take(1)).subscribe(() => {
 					// allow GET once a value is cached
 					characteristic.on(
 						CharacteristicEventTypes.GET,
 						async (callback: CharacteristicGetCallback) => {
 							try {
-								const value = await onCachedValue.pipe(take(1)).toPromise()
+								const value = await cachedObservable.pipe(take(1)).toPromise()
 								callback(null, value)
 								requestUpdate()
 							} catch (error) {

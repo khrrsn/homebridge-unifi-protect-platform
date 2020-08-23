@@ -8,7 +8,7 @@ const batteryCharacteristic = <characteristic<Camera>>function ({ hap }, service
 	services.registerObservableCharacteristic({
 		characteristicType: Characteristic.BatteryLevel,
 		serviceType: Service.BatteryService,
-		onValue: stream.pipe(
+		observable: stream.pipe(
 			filter(message => typeof message.body?.stats?.percentage === 'number'),
 			map(message => message.body!.stats!.percentage),
 		),

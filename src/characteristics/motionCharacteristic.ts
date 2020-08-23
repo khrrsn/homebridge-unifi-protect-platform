@@ -8,7 +8,7 @@ const motionCharacteristic = <characteristic<Camera>>function ({ hap }, services
 	services.registerObservableCharacteristic({
 		characteristicType: Characteristic.MotionDetected,
 		serviceType: Service.MotionSensor,
-		onValue: stream.pipe(
+		observable: stream.pipe(
 			filter(message => typeof message.body?.isMotionDetected === 'boolean'),
 			map(message => message.body?.isMotionDetected ?? false),
 		),
