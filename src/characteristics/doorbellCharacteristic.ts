@@ -6,7 +6,9 @@ const typeAllowlist = new Set(['UVC G4 Doorbell'])
 
 const doorbellCharacteristic = <characteristic<Camera>>function ({ hap }, services, stream) {
 	const { Characteristic, Service } = hap
-	const onRing = stream.pipe(filter(message => message.body?.type === 'ring'))
+	const onRing = stream.pipe(
+		filter(message => 'type' in message.body && message.body.type === 'ring'),
+	)
 	console.log(services.device)
 
 	services.registerObservableCharacteristic({

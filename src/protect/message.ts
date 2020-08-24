@@ -17,7 +17,64 @@ export interface Message {
 		modelKey: 'camera' | 'light' | 'nvr' | 'sensor' | 'viewer' | 'user' | 'event'
 		id: string
 	}
-	body: any
+	body:
+		| { stats: Stats }
+		| { lastSeen: number; uptime?: number }
+		| {
+				wifiConnectionState: WifiConnectionState
+		  }
+		| { isDark: boolean }
+		| CameraEvent
+		| CameraEventEnd
+}
+
+export interface WifiConnectionState {
+	channel: number
+	frequency: number
+	linkSpeedMbps: number | null
+	signalQuality: number
+	signalStrength: number
+}
+
+export interface Stats {
+	rxBytes: number
+	txBytes: number
+	wifi?: WifiConnectionState | null
+	battery?: { percentage: number | null; isCharging: boolean; sleepState: string }
+	video: {
+		recordingStart: number
+		recordingEnd: number
+		recordingStartLQ: number
+		recordingEndLQ: number
+		timelapseStart: number
+		timelapseEnd: number
+		timelapseStartLQ: number
+		timelapseEndLQ: number
+	}
+	storage: { used: number; rate: number }
+}
+
+export type CameraEventType = 'motion' | 'ring'
+export interface CameraEvent {
+	type: CameraEventType
+	start: number
+	end?: number
+	score: number
+	camera: string
+	partition: null
+	metadata: {
+		objectType: string | null
+		objectCoords: string | null
+		objectConfidence: number | null
+	}
+	id: string
+	modelKey: string
+}
+
+export interface CameraEventEnd {
+	type: CameraEventType
+	end: number
+	score: number
 }
 
 export function parseMessageSection(message: Buffer): any {
