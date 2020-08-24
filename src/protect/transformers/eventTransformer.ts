@@ -11,13 +11,15 @@ export default function eventTransformer(message: Message): Message {
 		return message
 	}
 
-	// Events can be fired as ongoing or instantaneous
-	// We only want to store events for ongoing events
-	if ('camera' in message.body && !message.body.end) {
-		events.set(message.header.id, {
-			camera: message.body.camera,
-			type: message.body.type,
-		})
+	if ('camera' in message.body) {
+		// Events can be fired as ongoing or instantaneous
+		// We only want to store events for ongoing events
+		if (!message.body.end) {
+			events.set(message.header.id, {
+				camera: message.body.camera,
+				type: message.body.type,
+			})
+		}
 
 		message.header.id = message.body.camera
 	} else if ('end' in message.body && events.has(message.header.id)) {
