@@ -7,6 +7,7 @@ import { BootstrapResponse } from './bootstrap'
 import { webSocket } from 'rxjs/webSocket'
 import { HEADER_SIZE, HeaderBytes, parseMessageSection, Message } from './message'
 import { getHeaders } from './api'
+import eventTransformer from './transformers/eventTransformer'
 
 interface BufferAcc {
 	buffer?: Buffer
@@ -77,5 +78,8 @@ export default function stream(
 			header: parseMessageSection(value.message!.buffer.slice(0, value.message!.bodyOffset)),
 			body: parseMessageSection(value.message!.buffer.slice(value.message!.bodyOffset)),
 		})),
+
+		// Apply transformers
+		map(eventTransformer),
 	)
 }
