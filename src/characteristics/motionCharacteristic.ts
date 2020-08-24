@@ -1,6 +1,7 @@
 import { Camera } from '../protect/api'
 import { characteristic } from './characteristic'
-import { filter, map } from 'rxjs/operators'
+import { map } from 'rxjs/operators'
+import filterEvents from './operators/filterEvents'
 
 const motionCharacteristic = <characteristic<Camera>>function ({ hap }, services, stream) {
 	const { Characteristic, Service } = hap
@@ -9,13 +10,8 @@ const motionCharacteristic = <characteristic<Camera>>function ({ hap }, services
 		characteristicType: Characteristic.MotionDetected,
 		serviceType: Service.MotionSensor,
 		observable: stream.pipe(
-			filter(
-				message =>
-					message.header.modelKey === 'event' &&
-					'type' in message.body &&
-					message.body.type === 'motion',
-			),
-			map(message => !('end' in message.body) || (message.body.end ?? 0) <= 0),
+			filterEvents(),
+			map(body => !('end' in body) || (body.end ?? 0) <= 0),
 		),
 	})
 }

@@ -1,15 +1,13 @@
 import { Camera } from '../protect/api'
 import { characteristic } from './characteristic'
-import { filter, mapTo } from 'rxjs/operators'
+import { mapTo } from 'rxjs/operators'
+import filterEvents from './operators/filterEvents'
 
 const typeAllowlist = new Set(['UVC G4 Doorbell'])
 
 const doorbellCharacteristic = <characteristic<Camera>>function ({ hap }, services, stream) {
 	const { Characteristic, Service } = hap
-	const onRing = stream.pipe(
-		filter(message => 'type' in message.body && message.body.type === 'ring'),
-	)
-	console.log(services.device)
+	const onRing = stream.pipe(filterEvents())
 
 	services.registerObservableCharacteristic({
 		characteristicType: Characteristic.ProgrammableSwitchEvent,
