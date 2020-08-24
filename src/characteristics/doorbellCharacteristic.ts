@@ -7,7 +7,7 @@ const typeAllowlist = new Set(['UVC G4 Doorbell'])
 
 const doorbellCharacteristic = <characteristic<Camera>>function ({ hap }, services, stream) {
 	const { Characteristic, Service } = hap
-	const onRing = stream.pipe(filterEvents())
+	const onRing = stream.pipe(filterEvents('ring'))
 
 	services.registerObservableCharacteristic({
 		characteristicType: Characteristic.ProgrammableSwitchEvent,
