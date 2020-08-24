@@ -36,6 +36,17 @@ export interface Camera {
 		hasSpeaker: boolean
 		hasBattery: boolean
 	}
+	channels: {
+		enabled: boolean
+		isRtspEnabled: boolean
+		videoId: string
+		name: string
+		rtspAlias?: string | null
+		fps: number
+		bitrate: number
+		minBitrate: number
+		maxBitrate: number
+	}[]
 	lcdMessage?: any
 	modelKey: string
 }

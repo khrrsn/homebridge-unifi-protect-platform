@@ -34,7 +34,7 @@ export function parseConfig(
 	}
 
 	if (!config.unifi.controller_rtsp) {
-		throw new Error('Password not set, ignoring plugin.')
+		throw new Error('RTSP not set, ignoring plugin.')
 	}
 
 	if (!config.unifi.controller_url) {

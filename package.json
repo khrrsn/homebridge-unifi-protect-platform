@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "fetchit": "^3.0.0-beta.1",
+    "homebridge-camera-ffmpeg": "^2.5.0",
     "rxjs": "^6.6.2",
     "ws": "^7.3.1"
   },
