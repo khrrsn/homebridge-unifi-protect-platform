@@ -4,7 +4,7 @@ import path from 'path'
 import { UnifiPlatformConfig } from '../src/config'
 dotenv.config()
 
-const fixtures = path.join(__dirname, '../fixtures')
+const fixtures = path.join(__dirname, './fixtures')
 const config = require(path.join(fixtures, 'config/config.template.json'))
 const platformConfig = <Partial<UnifiPlatformConfig>>config.platforms[0].unifi
 platformConfig.controller_url = process.env.UNIFI_CONTROLLER_URL

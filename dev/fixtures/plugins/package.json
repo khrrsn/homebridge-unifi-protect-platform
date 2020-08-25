@@ -5,7 +5,7 @@
     "homebridge-plugin",
     "homebridge-platform"
   ],
-  "main": "../../src/registerPlatform.ts",
+  "main": "../../../src/registerPlatform.ts",
   "engines": {
     "homebridge": ">=1.0.0"
   }

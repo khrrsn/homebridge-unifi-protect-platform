@@ -37,7 +37,7 @@ TODO
 
 ### Environment
 
-All development tooling dynamically configures Homebridge through environment vars that should be set to match your environment. These values can be found in the [utils/start.ts](./utils/start.ts) file.
+All development tooling dynamically configures Homebridge through environment vars that should be set to match your environment. These values can be found in the [dev/start.ts](./dev/start.ts) file.
 
 A `.env` file is supported in the root of the project directory.
 

@@ -19,8 +19,8 @@
   "scripts": {
     "build": "rm -fr build && tsc",
     "commit": "git-cz",
-    "dev": "ts-node-dev --respawn --transpile-only utils/start.ts",
-    "dev:stream": "ts-node-dev --respawn --transpile-only utils/stream.ts"
+    "dev": "ts-node-dev --respawn --transpile-only dev/start.ts",
+    "dev:stream": "ts-node-dev --respawn --transpile-only dev/stream.ts"
   },
   "config": {
     "commitizen": {
