@@ -62,11 +62,9 @@ export default class CameraStreamingDelegate extends FfmpegStreamingDelegate {
 			maxFPS: channel.fps,
 			maxBitrate: channel.maxBitrate / 1000,
 			forceMax: false,
-			preserveRatio: false,
 			vcodec: 'copy',
 			packetSize: 188,
-			additionalCommandline:
-				'-protocol_whitelist https,crypto,srtp,rtp,udp -loglevel verbose',
+			encoderOptions: '-protocol_whitelist https,crypto,srtp,rtp,udp -loglevel verbose',
 			mapvideo: '0:1',
 			mapaudio: '0:0',
 			audio: false,
