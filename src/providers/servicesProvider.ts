@@ -122,10 +122,7 @@ export class ServicesProvider<DeviceType extends { name: string }> {
 		const characteristic = service.getCharacteristic(characteristicType)
 		const cachedObservable = observable.pipe(publishReplay(1), refCount())
 
-		cachedObservable.subscribe(value => {
-			console.log('update value', value)
-			characteristic.updateValue(value)
-		})
+		cachedObservable.subscribe(value => characteristic.updateValue(value))
 
 		if (requestUpdate) {
 			// Only register for GET if an async request should be made to get an updated value
