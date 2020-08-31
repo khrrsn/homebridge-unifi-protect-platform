@@ -9,7 +9,10 @@ import { Observable } from 'rxjs'
 import { share, filter } from 'rxjs/operators'
 import characteristics from './characteristics'
 import { platformName, pluginName } from './config'
-import resourceProvider, { ResourceProvider } from './providers/resourceProvider'
+import resourceProvider, {
+	bootstrappedResourceProvider,
+	ResourceProvider,
+} from './providers/resourceProvider'
 import servicesProvider from './providers/servicesProvider'
 
 export default class UnifiPlatform implements DynamicPlatformPlugin {
@@ -42,12 +45,13 @@ export default class UnifiPlatform implements DynamicPlatformPlugin {
 	private async didFinishLaunching() {
 		await login(this.resources)
 		const json = await bootstrap(this.resources)
-		this.stream = stream(this.resources, json).pipe(share())
+		const resources = bootstrappedResourceProvider(this.resources, json)
+		this.stream = stream(resources, json).pipe(share())
 
 		const newPlatformAccessories: PlatformAccessory[] = []
 		const activeAccessoryIds = new Set<string>()
 		const cachedAccessoryIds = Array.from(this.platformAccessories.keys())
-		const { api, hap, log } = this.resources
+		const { api, hap, log } = resources
 
 		for (const camera of json.cameras) {
 			const uuid = api.hap.uuid.generate(camera.id)
@@ -68,16 +72,15 @@ export default class UnifiPlatform implements DynamicPlatformPlugin {
 					return accessory
 				})()
 
-			const services = servicesProvider(this.resources, platformAccessory, camera)
+			const services = servicesProvider(resources, platformAccessory, camera)
 			for (const characteristic of characteristics) {
 				if (!characteristic.isAvailable(camera)) {
 					continue
 				}
 
-				characteristic(this.resources, services, stream)
+				characteristic(resources, services, stream)
 			}
 
-			services.pruneUnused()
 			this.platformAccessories.set(uuid, platformAccessory)
 			activeAccessoryIds.add(uuid)
 		}
