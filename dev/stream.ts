@@ -2,57 +2,21 @@
  * Helper script to stream all events from the websocket
  */
 
-import { Logging } from 'homebridge'
 import bootstrap from '../src/protect/bootstrap'
 import chalk from 'chalk'
-import dotenv from 'dotenv'
 import { filter } from 'rxjs/operators'
+import log from './helpers/log'
 import login from '../src/protect/login'
-import nopt from 'nopt'
-import { parseConfig } from '../src/config'
+import parseOptions from './helpers/parseOptions'
+import platformConfig from './helpers/platformConfig'
 import resourceProvider from '../src/providers/resourceProvider'
 import stream from '../src/protect/stream'
-dotenv.config()
 
-const platformConfig = parseConfig({
-	name: 'name',
-	platform: 'name',
-	unifi: {
-		controller_url: process.env.UNIFI_CONTROLLER_URL,
-		controller_rtsp: process.env.UNIFI_CONTROLLER_URL,
-		api_url: process.env.UNIFI_API_URL,
-		ws_url: process.env.UNIFI_WS_URL,
-		username: process.env.UNIFI_USERNAME,
-		password: process.env.UNIFI_PASSWORD,
-	},
-})
-
-const log = <Logging>{
-	prefix: 'unifi',
-	debug: console.log.bind(console, 'debug'),
-	info: console.log.bind(console, 'info'),
-	warn: console.log.bind(console, 'warn'),
-	error: console.log.bind(console, 'error'),
-	log: console.log.bind(console, 'log'),
-}
-
-const options = {
+const opts = parseOptions('dev:stream', {
 	'verbose': Boolean,
 	'no-nvr': Boolean,
 	'no-user': Boolean,
-	'help': Boolean,
-}
-const opts = nopt(options)
-
-if (opts.help) {
-	console.log(
-		chalk.dim('yarn dev:stream'),
-		...Object.keys(options)
-			.filter(value => value !== 'help')
-			.map(value => chalk.dim(`[--${value}]`)),
-	)
-	process.exit(0)
-}
+})
 
 async function run() {
 	const resources = resourceProvider(<any>{}, log, platformConfig)
