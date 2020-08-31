@@ -1,11 +1,11 @@
 import { SnapshotRequest, SnapshotRequestCallback } from 'homebridge'
 import api, { Camera } from '../../protect/api'
 
+import { BootstrappedResourceProvider } from '../../providers/resourceProvider'
 import { StreamingDelegate as FfmpegStreamingDelegate } from 'homebridge-camera-ffmpeg/dist/streamingDelegate'
-import { ResourceProvider } from '../../providers/resourceProvider'
 
 export default class CameraStreamingDelegate extends FfmpegStreamingDelegate {
-	constructor(private resources: ResourceProvider, private device: Camera) {
+	constructor(private resources: BootstrappedResourceProvider, private device: Camera) {
 		super(
 			resources.log as any,
 			{
@@ -43,7 +43,10 @@ export default class CameraStreamingDelegate extends FfmpegStreamingDelegate {
 		}
 	}
 
-	private static generateVideoConfig(resources: ResourceProvider, device: Camera): any {
+	private static generateVideoConfig(
+		resources: BootstrappedResourceProvider,
+		device: Camera,
+	): any {
 		const channels = device.channels.filter(
 			value => value.isRtspEnabled && typeof value.rtspAlias === 'string',
 		)
@@ -54,7 +57,9 @@ export default class CameraStreamingDelegate extends FfmpegStreamingDelegate {
 
 		const [channel] = channels
 		return {
-			source: `-i ${resources.config.controller_rtsp}/${channel.rtspAlias!}`,
+			source: `-i rtsp://${resources.nvr.host}:${
+				resources.nvr.ports.rtsp
+			}/${channel.rtspAlias!}`,
 			stillImageSource: '',
 			maxStreams: 2,
 			maxWidth: 1920,

@@ -9,7 +9,6 @@ export interface UnifiPlatformConfig {
 	controller_url: string
 	api_url: string
 	ws_url: string
-	controller_rtsp: string
 	username: string
 	password: string
 	timeouts: {
@@ -31,10 +30,6 @@ export function parseConfig(
 
 	if (!config.unifi.password) {
 		throw new Error('Password not set, ignoring plugin.')
-	}
-
-	if (!config.unifi.controller_rtsp) {
-		throw new Error('RTSP not set, ignoring plugin.')
 	}
 
 	if (!config.unifi.controller_url) {
@@ -60,7 +55,6 @@ export function parseConfig(
 		controller_url: config.unifi.controller_url,
 		api_url: config.unifi.api_url,
 		ws_url: config.unifi.ws_url,
-		controller_rtsp: config.unifi.controller_rtsp,
 		username: config.unifi.username,
 		password: config.unifi.password,
 		timeouts: {
