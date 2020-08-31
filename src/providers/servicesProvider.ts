@@ -158,6 +158,30 @@ export class ServicesProvider<DeviceType extends { name: string }> {
 			)
 		}
 	}
+
+	pruneUnused() {
+		const safeServiceUUIDs = [
+			this.resources.hap.Service.CameraRTPStreamManagement.UUID,
+			this.resources.hap.Service.CameraControl.UUID,
+			'00000112-0000-1000-8000-0026BB765291', // Unclear what this is, but it’s auto-added
+		]
+
+		for (const service of this.platformAccessory.services) {
+			if (this.servicesInUse.includes(service) || safeServiceUUIDs.includes(service.UUID)) {
+				continue
+			}
+
+			this.resources.log.info(
+				'Pruning unused service',
+				service.UUID,
+				service.displayName || service.name,
+				'from',
+				this.device.name,
+			)
+
+			this.platformAccessory.removeService(service)
+		}
+	}
 }
 
 export default function servicesProvider<DeviceType extends { name: string }>(

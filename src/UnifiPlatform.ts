@@ -77,6 +77,7 @@ export default class UnifiPlatform implements DynamicPlatformPlugin {
 				characteristic(this.resources, services, stream)
 			}
 
+			services.pruneUnused()
 			this.platformAccessories.set(uuid, platformAccessory)
 			activeAccessoryIds.add(uuid)
 		}
