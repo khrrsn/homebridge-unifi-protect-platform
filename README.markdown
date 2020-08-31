@@ -10,6 +10,17 @@ UniFi Protect platform for Homebridge with support for realtime events from UniF
 
 > _NOTE:_ This only works with UniFi OS capable devices (UDM-Pro); it has been not been tested with the vanilla UCK-G2.
 
+- [Installation](#installation)
+  - [Supported Features](#supported-features)
+  - [Tested Devices](#tested-devices)
+- [Configuration](#configuration)
+- [TODO](#todo)
+- [Development](#development)
+  - [Environment](#environment)
+  - [Tools](#tools)
+- [Credits](#credits)
+- [License](#license)
+
 ## Installation
 
 TODO
@@ -33,6 +44,11 @@ Unlike other UniFi Homebridge platforms, this platform provides realtime events 
 
 TODO
 
+## TODO
+
+- Two Way Audio
+- Move off of RTSP
+
 ## Development
 
 ### Environment
@@ -51,3 +67,7 @@ A `.env` file is supported in the root of the project directory.
 ## Credits
 
 Much of the initial charactistic/services code has been lifted and repurposed from [dgreif/ring](https://github.com/dgreif/ring).
+
+## License
+
+homebridge-unifi-protect-platform was created by [Shaun Harrison](https://github.com/shnhrrsn) and is made available under the [MIT license](LICENSE).
