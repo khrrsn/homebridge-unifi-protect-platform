@@ -63,7 +63,7 @@ In order to use this plugin, you’ll need to add the following JSON object to y
 | ------------------ | ----------------------------------------------------------------------------------------------------------- | -------- |
 | `platform`         | Homebridge Platform name.<br>This value should always be unifi-protect.                                     | Y        |
 | `name`             | The name of this platform within Homebridge.<br>This is mainly used for logs and can be any value you want. | N        |
-| `unifi`            | This contains the settings that will be passed to OpenZWave.                                                | Y        |
+| `unifi`            |                                                                                                             | Y        |
 | `unifi.controller` | The URL to your controller.                                                                                 | Y        |
 | `unifi.username`   | The username to login to your controller.                                                                   | Y        |
 
