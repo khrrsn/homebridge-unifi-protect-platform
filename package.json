@@ -14,6 +14,10 @@
     "category-hubs",
     "category-outdoor"
   ],
+  "homepage": "https://github.com/shnhrrsn/homebridge-unifi-protect-platform#readme",
+  "bugs": {
+    "url": "https://github.com/shnhrrsn/homebridge-unifi-protect-platform/issues"
+  },
   "license": "MIT",
   "main": "lib/registerPlatform.js",
   "scripts": {
