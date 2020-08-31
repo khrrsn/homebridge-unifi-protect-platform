@@ -1,6 +1,7 @@
 import { FetchIt, FetchitRequestInit } from 'fetchit/lib/types/fetchit'
 import fetchit from 'fetchit'
 import { ResourceProvider } from '../providers/resourceProvider'
+import AbortController from 'abort-controller'
 
 export interface Camera {
 	id: string
@@ -84,12 +85,17 @@ export type Headers = Record<string, string>
 const headers = <Headers>{}
 let defaultTimeout = 0
 
-const api = <FetchIt>function api(uri: string, options?: ApiRequestInit): Promise<Response> {
+const api = <FetchIt>async function api(uri: string, options?: ApiRequestInit): Promise<Response> {
+	const abort = new AbortController()
 	options = options ?? {}
-	options.timeout = options.timeout ?? defaultTimeout
 	options.headers = Object.assign({}, headers, options.headers ?? {})
+	options.signal = abort.signal
 
-	return fetchit(uri, options).then(response => {
+	const timeout = setTimeout(abort.abort.bind(abort), options.timeout ?? defaultTimeout)
+	delete options.timeout
+
+	try {
+		const response = await fetchit(uri, options)
 		const csrf = response.headers.get('X-CSRF-Token')
 		const cookie = response.headers.get('Set-Cookie')
 
@@ -102,7 +108,9 @@ const api = <FetchIt>function api(uri: string, options?: ApiRequestInit): Promis
 		}
 
 		return response
-	})
+	} finally {
+		clearTimeout(timeout)
+	}
 }
 
 export default api

@@ -36,6 +36,7 @@
     }
   },
   "dependencies": {
+    "abort-controller": "^3.0.0",
     "fetchit": "^3.0.0-beta.1",
     "homebridge-camera-ffmpeg": "^3.0.2",
     "rxjs": "^6.6.2",
