@@ -59,7 +59,7 @@ export function parseConfig(
 		password: config.unifi.password,
 		timeouts: {
 			default: config.unifi.timeouts?.default ?? 30000,
-			snapshot: config.unifi.timeouts?.default ?? 15000,
+			snapshot: config.unifi.timeouts?.snapshot ?? 15000,
 		},
 	}
 }
