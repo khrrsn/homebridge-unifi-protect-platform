@@ -22,7 +22,9 @@
     "dev": "ts-node-dev --respawn --transpile-only dev/start.ts",
     "dev:inspect": "ts-node --transpile-only dev/inspect.ts",
     "dev:stream": "ts-node-dev --respawn --transpile-only dev/stream.ts",
-    "prepack": "yarn build"
+    "prepack": "yarn build",
+    "release": "standard-version",
+    "release:beta": "standard-version --prerelease beta"
   },
   "config": {
     "commitizen": {
@@ -52,6 +54,7 @@
     "nopt": "^5.0.0",
     "prettier": "^2.0.5",
     "prettier-plugin-packagejson": "^2.2.5",
+    "standard-version": "^9.0.0",
     "ts-node-dev": "^1.0.0-pre.57",
     "typescript": "^4.0.2"
   },
