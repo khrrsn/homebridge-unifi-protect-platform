@@ -7,8 +7,8 @@
   },
   "platforms": [
     {
-      "platform": "unifi-doorbell",
-      "name": "unifi-doorbell",
+      "platform": "unifi-protect",
+      "name": "unifi-protect",
       "unifi": {
         "controller": "https://10.0.1.1:443",
         "username": "homekit",

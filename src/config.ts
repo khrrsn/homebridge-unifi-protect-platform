@@ -2,8 +2,8 @@ import { PlatformConfig } from 'homebridge'
 import path from 'path'
 import url from 'url'
 
-export const pluginName = 'homebridge-unifi-doorbell'
-export const platformName = 'unifi-doorbell'
+export const pluginName = 'homebridge-unifi-protect-platform'
+export const platformName = 'unifi-protect'
 
 export interface UnifiPlatformConfig {
 	controller_url: string
