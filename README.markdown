@@ -69,20 +69,20 @@ In order to use this plugin, you’ll need to add the following JSON object to y
 
 ### Advanced Config
 
-If the values above are the basics to get you started, however you can fine tune your config if needed:
+The values above are the basics to get you started, however you can fine tune your config if needed:
 
-| Config Key                | Description                                                                                                           | Required |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------- | -------- |
-| `unifi.api_url`           | The URL to the Protect API. By default, this resolves to: `{unifi.controller}/proxy/protect/api`                      | N        |
-| `unifi.ws_url`            | The URL to the Protect WebSocket API. By default, this resolves to: `ws(s)://{controllerip}/proxy/protect/ws/updates` | N        |
-| `unifi.timeouts`          | Override request timeouts                                                                                             | N        |
-| `unifi.timeouts.default`  | Timeout in milliseconds for most requests<br>The default value is 30s.                                                | N        |
-| `unifi.timeouts.snapshot` | Timeout in milliseconds for snapshot requests<br>The default value is 15s.                                            | N        |
+| Config Key                | Description                                                                                                              | Required |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------ | -------- |
+| `unifi.api_url`           | The URL to the Protect API.<br>By default, this resolves to: `{unifi.controller}/proxy/protect/api`                      | N        |
+| `unifi.ws_url`            | The URL to the Protect WebSocket API.<br>By default, this resolves to: `ws(s)://{controllerip}/proxy/protect/ws/updates` | N        |
+| `unifi.timeouts`          | Override request timeouts                                                                                                | N        |
+| `unifi.timeouts.default`  | Timeout in milliseconds for most requests<br>The default value is 30s.                                                   | N        |
+| `unifi.timeouts.snapshot` | Timeout in milliseconds for snapshot requests<br>The default value is 15s.                                               | N        |
 
 ## To Do
 
-- Two Way Audio
-- Move off of RTSP
+- [ ] Two Way Audio
+- [ ] Move off of RTSP
 
 ## Development
 
