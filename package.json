@@ -20,6 +20,7 @@
     "build": "rm -fr build && tsc",
     "commit": "git-cz",
     "dev": "ts-node-dev --respawn --transpile-only dev/start.ts",
+    "dev:inspect": "ts-node --transpile-only dev/inspect.ts",
     "dev:stream": "ts-node-dev --respawn --transpile-only dev/stream.ts"
   },
   "config": {
