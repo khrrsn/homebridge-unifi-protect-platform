@@ -51,7 +51,7 @@
     "prettier": "^2.0.5",
     "prettier-plugin-packagejson": "^2.2.5",
     "ts-node-dev": "^1.0.0-pre.57",
-    "typescript": "^3.9.7"
+    "typescript": "^4.0.2"
   },
   "peerDependencies": {
     "homebridge": "^1.1.2"
