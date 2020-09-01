@@ -58,7 +58,7 @@ export default class CameraStreamingDelegate extends FfmpegStreamingDelegate {
 
 		const [channel] = channels
 		return {
-			source: `-i rtsp://${resources.nvr.host}:${
+			source: `-rtsp_transport tcp -re -i rtsp://${resources.nvr.host}:${
 				resources.nvr.ports.rtsp
 			}/${channel.rtspAlias!}`,
 			stillImageSource: '',
