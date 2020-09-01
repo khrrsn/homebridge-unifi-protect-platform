@@ -1,6 +1,6 @@
 {
   "name": "homebridge-unifi-protect-platform",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Homebridge platform for UniFi Protect with (Cameras, Doorbells).",
   "keywords": [
     "homebridge",
