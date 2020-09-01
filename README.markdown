@@ -81,8 +81,8 @@ The values above are the basics to get you started, however you can fine tune yo
 
 ## To Do
 
-- [ ] Two Way Audio
-- [ ] Move off of RTSP
+- [ ] [Two Way Audio](https://github.com/shnhrrsn/homebridge-unifi-protect-platform/issues/1)
+- [ ] [Move off of RTSP](https://github.com/shnhrrsn/homebridge-unifi-protect-platform/issues/2)
 
 ## Development
 
