@@ -38,6 +38,7 @@ export default class CameraStreamingDelegate extends FfmpegStreamingDelegate {
 				callback(undefined, snapshot)
 			},
 			error => {
+				this.resources.log.debug(`Failed to fetch snapshot for ${this.device.name}.`, error)
 				callback(error)
 			},
 		)
