@@ -9,7 +9,10 @@ export default function observeSnapshots(
 	device: Camera,
 ): Observable<Buffer> {
 	// Setup cache subject
-	const cache = new ReplaySubject<Buffer>(1)
+	const cache = new ReplaySubject<Buffer>(
+		1, // Number of snapshots to retain
+		60_000, // How long we should retain the snapshots for (60s)
+	)
 
 	// Establish race between fetch and cache
 	return race(
