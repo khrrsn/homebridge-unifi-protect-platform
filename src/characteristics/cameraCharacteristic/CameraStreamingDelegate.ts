@@ -3,6 +3,7 @@ import api, { Camera } from '../../protect/api'
 
 import { BootstrappedResourceProvider } from '../../providers/resourceProvider'
 import { StreamingDelegate as FfmpegStreamingDelegate } from 'homebridge-camera-ffmpeg/dist/streamingDelegate'
+import { VideoConfig } from 'homebridge-camera-ffmpeg/dist/configTypes'
 
 export default class CameraStreamingDelegate extends FfmpegStreamingDelegate {
 	constructor(private resources: BootstrappedResourceProvider, private device: Camera) {
@@ -46,7 +47,7 @@ export default class CameraStreamingDelegate extends FfmpegStreamingDelegate {
 	private static generateVideoConfig(
 		resources: BootstrappedResourceProvider,
 		device: Camera,
-	): any {
+	): VideoConfig {
 		const channels = device.channels.filter(
 			value => value.isRtspEnabled && typeof value.rtspAlias === 'string',
 		)
@@ -74,6 +75,9 @@ export default class CameraStreamingDelegate extends FfmpegStreamingDelegate {
 			mapaudio: '0:0',
 			audio: false,
 			debug: false,
+			debugReturn: false,
+			videoFilter: undefined as any,
+			returnAudioTarget: undefined as any,
 		}
 	}
 }
