@@ -85,7 +85,11 @@ export type Headers = Record<string, string>
 const headers = <Headers>{}
 let defaultTimeout = 0
 
-const api = <FetchIt>async function api(uri: string, options?: ApiRequestInit): Promise<Response> {
+export interface Api extends FetchIt {
+	buffer(uri: string, options?: FetchitRequestInit): Promise<Buffer>
+}
+
+const api = <Api>async function api(uri: string, options?: ApiRequestInit): Promise<Response> {
 	const abort = new AbortController()
 	options = options ?? {}
 	options.headers = Object.assign({}, headers, options.headers ?? {})
@@ -135,4 +139,8 @@ api.json = (...args) => {
 
 api.text = (...args) => {
 	return api(...args).then(response => response.text())
+}
+
+api.buffer = (...args) => {
+	return api(...args).then(response => (response as any).buffer())
 }
