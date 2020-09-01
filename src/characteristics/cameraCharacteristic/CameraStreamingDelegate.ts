@@ -1,11 +1,15 @@
 import { SnapshotRequest, SnapshotRequestCallback } from 'homebridge'
-import api, { Camera } from '../../protect/api'
 
 import { BootstrappedResourceProvider } from '../../providers/resourceProvider'
+import { Camera } from '../../protect/api'
 import { StreamingDelegate as FfmpegStreamingDelegate } from 'homebridge-camera-ffmpeg/dist/streamingDelegate'
 import { VideoConfig } from 'homebridge-camera-ffmpeg/dist/configTypes'
+import observeSnapshots from './observeSnapshots'
+import { take } from 'rxjs/operators'
 
 export default class CameraStreamingDelegate extends FfmpegStreamingDelegate {
+	private snapshots = observeSnapshots(this.resources, this.device)
+
 	constructor(private resources: BootstrappedResourceProvider, private device: Camera) {
 		super(
 			resources.log as any,
@@ -29,19 +33,14 @@ export default class CameraStreamingDelegate extends FfmpegStreamingDelegate {
 	}
 
 	async handleSnapshotRequest(request: SnapshotRequest, callback: SnapshotRequestCallback) {
-		try {
-			this.resources.log.debug(`Fetching snapshot for ${this.device.name}`)
-			const response = await api(
-				`${this.resources.config.api_url}/cameras/${this.device.id}/snapshot`,
-				{
-					timeout: this.resources.config.timeouts.snapshot,
-				} as any,
-			)
-			callback(undefined, await (response as any).buffer())
-		} catch (error) {
-			this.resources.log.debug(`Error fetching snapshot for ${this.device.name}`, error)
-			callback(error)
-		}
+		this.snapshots.pipe(take(1)).subscribe(
+			snapshot => {
+				callback(undefined, snapshot)
+			},
+			error => {
+				callback(error)
+			},
+		)
 	}
 
 	private static generateVideoConfig(
